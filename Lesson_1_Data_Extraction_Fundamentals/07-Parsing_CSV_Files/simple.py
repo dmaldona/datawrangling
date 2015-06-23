@@ -15,9 +15,19 @@ DATAFILE = "beatles-diskography.csv"
 
 def parse_file(datafile):
     data = []
+    firstline = True
     with open(datafile, "rb") as f:
         for line in f:
-            print line
+            line = line.strip().split(',')
+
+            if firstline == True:
+                headers = line
+                firstline = False
+            else:
+                entry = {}
+                for i in range(len(headers)):
+                    entry[headers[i]] = line[i]
+                data.append(entry)
 
     return data
 

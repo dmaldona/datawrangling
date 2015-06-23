@@ -45,8 +45,8 @@ def parse_file(datafile):
     # print exceltime
     # print "Convert time to a Python datetime tuple, from the Excel float:",
     # print xlrd.xldate_as_tuple(exceltime, 0)
-    
-    
+
+
     data = {
             'maxtime': (0, 0, 0, 0, 0, 0),
             'maxvalue': 0,
@@ -54,11 +54,33 @@ def parse_file(datafile):
             'minvalue': 0,
             'avgcoast': 0
     }
+
+    #initialize values
+    data['maxvalue'] = sheet.cell_value(1,1)
+    data['minvalue'] = sheet.cell_value(1,1)
+    data['maxtime'] = xlrd.xldate_as_tuple(sheet.cell_value(1,0), 0)
+    data['mintime'] = xlrd.xldate_as_tuple(sheet.cell_value(1,0), 0)
+
+    sum_load = 0
+
+    for i in range(sheet.nrows - 1):
+
+        value = sheet.cell_value(i + 1, 1)
+        if value > data['maxvalue']:
+            data['maxvalue'] = value
+            data['maxtime'] = xlrd.xldate_as_tuple(sheet.cell_value(i + 1,0), 0)
+        elif value < data['minvalue']:
+            data['minvalue'] = value
+            data['mintime'] = xlrd.xldate_as_tuple(sheet.cell_value(i + 1,0), 0)            
+
+        sum_load += value
+
+    data['avgcoast'] = sum_load / (sheet.nrows - 1)
+
     return data
 
-
 def test():
-    open_zip(datafile)
+    #open_zip(datafile)
     data = parse_file(datafile)
 
     assert data['maxtime'] == (2013, 8, 13, 17, 0, 0)
