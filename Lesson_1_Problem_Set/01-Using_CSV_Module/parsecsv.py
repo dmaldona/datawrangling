@@ -24,7 +24,17 @@ def parse_file(datafile):
     name = ""
     data = []
     with open(datafile,'rb') as f:
-        pass
+        nrel = csv.reader(f)
+
+        data = []
+        cnt  = 0
+        
+        for line in nrel:
+            if cnt == 0: name = line[1]
+            if cnt >= 2: data.append(line)
+            cnt += 1
+
+
     # Do not change the line below
     return (name, data)
 

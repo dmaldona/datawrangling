@@ -26,11 +26,11 @@ def parse_file(datafile):
     return data
 
 def save_file(data, filename):
-    # YOUR CODE HERE
+    print "caca"
 
     
 def test():
-    open_zip(datafile)
+    #open_zip(datafile)
     data = parse_file(datafile)
     save_file(data, outfile)
 
